@@ -1,32 +1,36 @@
-const { ethers } = require("ethers");
+const ethers = require('ethers')
+const privateInfuraID = '075194dbb99c4418829e980888979fe5'
+const provider = new ethers.providers.JsonRpcProvider(
+  `https://mainnet.infura.io/v3/${privateInfuraID}`
+)
 
-const INFURA_ID = ''
-const provider = new ethers.providers.JsonRpcProvider(`https://mainnet.infura.io/v3/${INFURA_ID}`)
+const address = `0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2`
 
+// Here I'm storing functions in an array so I can call them later to retieve properties of the ERC token.
 const ERC20_ABI = [
-    "function name() view returns (string)",
-    "function symbol() view returns (string)",
-    "function totalSupply() view returns (uint256)",
-    "function balanceOf(address) view returns (uint)",
-];
+  `function name() view returns(string)`,
+  `function symbol() view returns(string)`,
+  `function totalSupply() view returns(uint256)`,
+  `function balanceOf(address) view returns(uint)`,
+]
 
-const address = '0x6B175474E89094C44Da98b954EedeAC495271d0F' // DAI Contract
 const contract = new ethers.Contract(address, ERC20_ABI, provider)
 
 const main = async () => {
-    const name = await contract.name()
-    const symbol = await contract.symbol()
-    const totalSupply = await contract.totalSupply()
+  const contractName = await contract.name()
+  const contractSymbol = await contract.symbol()
+  const contractTotalSupply = await contract.totalSupply()
+  const contractBalance = await contract.balanceOf(address)
 
-    console.log(`\nReading from ${address}\n`)
-    console.log(`Name: ${name}`)
-    console.log(`Symbol: ${symbol}`)
-    console.log(`Total Supply: ${totalSupply}\n`)
-
-    const balance = await contract.balanceOf('0x6c6Bc977E13Df9b0de53b251522280BB72383700')
-
-    console.log(`Balance Returned: ${balance}`)
-    console.log(`Balance Formatted: ${ethers.utils.formatEther(balance)}\n`)
+  console.log(`
+  Contract name: ${contractName}
+  ${contractSymbol}
+  ${ethers.utils.formatEther(contractTotalSupply)}
+  ${ethers.utils.formatEther(contractBalance)}
+  `)
 }
 
 main()
+
+// https://www.youtube.com/watch?v=yk7nVp5HTCk&ab_channel=DappUniversity
+// 36:36
