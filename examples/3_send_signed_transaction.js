@@ -1,34 +1,10 @@
-const { ethers } = require("ethers");
+const ethers = require('ethers')
+const privateInfuraID = '075194dbb99c4418829e980888979fe5'
+const provider = new ethers.providers.JsonRpcProvider(
+  `https://mainnet.infura.io/v3/${privateInfuraID}`
+)
 
-const INFURA_ID = ''
-const provider = new ethers.providers.JsonRpcProvider(`https://kovan.infura.io/v3/${INFURA_ID}`)
+const main = async () => {}
 
-const account1 = '' // Your account address 1
-const account2 = '' // Your account address 2
-
-const privateKey1 = '' // Private key of account 1
-const wallet = new ethers.Wallet(privateKey1, provider)
-
-const main = async () => {
-    const senderBalanceBefore = await provider.getBalance(account1)
-    const recieverBalanceBefore = await provider.getBalance(account2)
-
-    console.log(`\nSender balance before: ${ethers.utils.formatEther(senderBalanceBefore)}`)
-    console.log(`reciever balance before: ${ethers.utils.formatEther(recieverBalanceBefore)}\n`)
-
-    const tx = await wallet.sendTransaction({
-        to: account2,
-        value: ethers.utils.parseEther("0.025")
-    })
-
-    await tx.wait()
-    console.log(tx)
-
-    const senderBalanceAfter = await provider.getBalance(account1)
-    const recieverBalanceAfter = await provider.getBalance(account2)
-
-    console.log(`\nSender balance after: ${ethers.utils.formatEther(senderBalanceAfter)}`)
-    console.log(`reciever balance after: ${ethers.utils.formatEther(recieverBalanceAfter)}\n`)
-}
-
-main()
+// https://www.youtube.com/watch?v=yk7nVp5HTCk&ab_channel=DappUniversity
+// 41:13
